@@ -6,8 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="theme-color" content="#317EFB">
   <link rel="shortcut icon" href="icons/icon-192x192.png" type="image/x-icon">
-
+  <link href="https://fonts.googleapis.com/css2?family=Commissioner&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/solar/bootstrap.min.css" integrity="sha384-NCwXci5f5ZqlDw+m7FwZSAwboa0svoPPylIW3Nf+GBDsyVum+yArYnaFLE9UDzLd" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="dist/manifest.json" />
   <title>Budget Tracker</title>
@@ -15,30 +16,40 @@
 <body>
   <div class="wrapper">
     <div class="total">
-      <div class="total">Your Current Balance is: $<span id="total">0</span></div>
+      <div class="total text-primary">Your Current Balance is $<span id="total">0</span></div>
     </div>
 
-    <div class="form">
-      <input type="text" id="t-name" placeholder="Name of transaction" />
-      <input type="number" min="0" id="t-amount" placeholder="Transaction amount" />
-      <button id="add-btn"><i class="fa fa-plus buttons"></i> Add Funds</button>
-      <button id="sub-btn"><i class="fa fa-minus"></i> Subtract Funds</button>
+    <div class="form form-group">
+      <input type="text" class="form-control" id="t-name" placeholder="Name of transaction" />
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">$</span>
+        </div>
+        <input type="number" min="0" class="form-control" id="t-amount" aria-label="Amount (to the nearest dollar)" placeholder="Transaction amount" />
+        <div class="input-group-append">
+          <span class="input-group-text">.00</span>
+        </div>
+      </div>
+      <button type="button" id="add-btn" class="btn btn-primary btn-lg"><i class="fa fa-plus buttons"></i> Add Funds</button>
+      <button type="button" id="sub-btn" class="btn btn-primary btn-lg"><i class="fa fa-minus"></i> Subtract Funds</button>
       <p class="error"></p>
     </div>
 
-    <div class="transactions">
+    <div class="transactions text-primary">
       <table>
         <thead>
           <th>Transaction</th>
           <th>Amount</th>
+          <th>Cleared</th>
         </thead>
-        <tbody id="tbody">
+        <tbody class="text-success" id="tbody">
           
         </tbody>
       </table>
     </div>
-    
-    <canvas id="myChart"></canvas>
+    <div class="card bg-light mb-3 mt-5">
+      <canvas id="myChart"></canvas>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>

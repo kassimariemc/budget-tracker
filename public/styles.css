@@ -1,11 +1,11 @@
 body {
   font-size: 120%;
-  font-family: Arial;
+  font-family: 'Commissioner', sans-serif;
 }
 
 button, input {
   font-size: 100%;
-  font-family: Arial;
+  font-family: 'Commissioner', sans-serif;
 }
 
 table {
@@ -13,13 +13,13 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 1.5px solid #A9BDBD;
   text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #A9BDBD;
 }
 
 .error {
@@ -34,7 +34,6 @@ tr:nth-child(even) {
 
 .total {
   font-size: 150%;
-  text-decoration: underline;
 }
 
 .form {
