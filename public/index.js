@@ -34,6 +34,7 @@ function populateTable() {
     tr.innerHTML = `
       <td>${transaction.name}</td>
       <td>${transaction.value}</td>
+      <td>hello!</td>
     `;
 
     tbody.appendChild(tr);

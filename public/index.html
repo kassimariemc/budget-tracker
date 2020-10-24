@@ -16,7 +16,7 @@
 <body>
   <div class="wrapper">
     <div class="total">
-      <div class="total text-primary">Your Current Balance is $<span id="total">0</span></div>
+      <div class="total text-primary">Your Current Balance is <strong>$<span id="total">0</span></strong></div>
     </div>
 
     <div class="form form-group">
@@ -53,7 +53,8 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="dist/bundle.js"></script>
+  <script src="index.js"></script>
+  <script src="db.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
