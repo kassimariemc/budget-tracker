@@ -1,14 +1,15 @@
 const FILES_TO_CACHE = [
   '/',
   '/index.html',
-  '/dist/manifest.json',
-  '/dist/bundle.js',
+  '/manifest.webmanifest',
+  '/index.js',
+  '/db.js',
   '/styles.css',
-  '/dist/icon_192x192.png',
-  '/dist/icon_512x512.png'
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png'
 ];
 
-const STATIC_CACHE = "static-cache-v5";
+const STATIC_CACHE = "static-cache-v7";
 const RUNTIME_CACHE = "runtime-cache";
 
 self.addEventListener("install", event => {
