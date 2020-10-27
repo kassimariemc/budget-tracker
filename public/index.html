@@ -14,12 +14,15 @@
   <title>Budget Tracker</title>
 </head>
 <body>
+  <!-- Heading/Totals -->
   <div class="wrapper">
     <div class="total">
-      <div class="total text-primary">Your Current Balance is <strong>$<span id="total">0</span></strong></div>
+      <div class="total text-primary">Your Current Balance is <strong>$<span id="cleared-total">0</span></strong></div>
+      <div class="total text-primary">Your Future Balance is <strong>$<span id="total">0</span></strong></div>
     </div>
-
+    <!-- Input Form -->
     <div class="form form-group">
+      <input type="date" class="form-control" id="t-date" placeholder="Date of transaction" />
       <input type="text" class="form-control" id="t-name" placeholder="Name of transaction" />
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -34,10 +37,11 @@
       <button type="button" id="sub-btn" class="btn btn-primary btn-lg"><i class="fa fa-minus"></i> Subtract Funds</button>
       <p class="error"></p>
     </div>
-
+    <!-- Table -->
     <div class="transactions text-primary">
       <table>
         <thead>
+          <th>Date</th>
           <th>Transaction</th>
           <th>Amount</th>
           <th>Cleared</th>
@@ -47,6 +51,7 @@
         </tbody>
       </table>
     </div>
+    <!-- Chart -->
     <div class="card bg-light mb-3 mt-5">
       <canvas id="myChart"></canvas>
     </div>

@@ -31,10 +31,14 @@ function populateTable() {
   transactions.forEach(transaction => {
     // create and populate a table row
     let tr = document.createElement("tr");
+    let date = new Date(transaction.date);
+    let dates = `${date.getMonth() + 1}/${date.getDate() + 1}/${date.getFullYear()}`;
+    let data_id = transaction._id;
     tr.innerHTML = `
+      <td>${dates}</td>
       <td>${transaction.name}</td>
       <td>${transaction.value}</td>
-      <td>hello!</td>
+      <td><button class="btn btn-outline-primary float-right"><i class="fa fa-circle-o" data-id=${data_id}></i></button></td>
     `;
 
     tbody.appendChild(tr);
@@ -49,7 +53,7 @@ function populateChart() {
   // create date labels for chart
   let labels = reversed.map(t => {
     let date = new Date(t.date);
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    return `${date.getMonth() + 1}/${date.getDate() + 1}/${date.getFullYear()}`;
   });
 
   // create incremental values for chart
@@ -67,25 +71,26 @@ function populateChart() {
 
   myChart = new Chart(ctx, {
     type: 'line',
-      data: {
-        labels,
-        datasets: [{
-            label: "Total Over Time",
-            fill: true,
-            backgroundColor: "#6666ff",
-            data
-        }]
+    data: {
+      labels,
+      datasets: [{
+        label: "Your Funds",
+        fill: true,
+        backgroundColor: "#D33682",
+        data
+      }]
     }
   });
 }
 
 function sendTransaction(isAdding) {
+  let dateEl = document.querySelector("#t-date");
   let nameEl = document.querySelector("#t-name");
   let amountEl = document.querySelector("#t-amount");
   let errorEl = document.querySelector(".form .error");
 
   // validate form
-  if (nameEl.value === "" || amountEl.value === "") {
+  if (nameEl.value === "" || amountEl.value === "" || dateEl.value === "") {
     errorEl.textContent = "Missing Information";
     return;
   }
@@ -97,7 +102,7 @@ function sendTransaction(isAdding) {
   let transaction = {
     name: nameEl.value,
     value: amountEl.value,
-    date: new Date().toISOString()
+    date: dateEl.value
   };
 
   // if subtracting funds, convert amount to negative number
@@ -112,7 +117,7 @@ function sendTransaction(isAdding) {
   populateChart();
   populateTable();
   populateTotal();
-  
+
   // also send to server
   fetch("/api/transaction", {
     method: "POST",
@@ -122,33 +127,74 @@ function sendTransaction(isAdding) {
       "Content-Type": "application/json"
     }
   })
-  .then(response => {    
-    return response.json();
-  })
-  .then(data => {
-    if (data.errors) {
-      errorEl.textContent = "Missing Information";
-    }
-    else {
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      if (data.errors) {
+        errorEl.textContent = "Missing Information";
+      }
+      else {
+        // clear form
+        nameEl.value = "";
+        amountEl.value = "";
+        dateEl.value = "";
+      }
+    })
+    .catch(err => {
+      // fetch failed, so save in indexed db
+      saveRecord(transaction);
+
       // clear form
       nameEl.value = "";
       amountEl.value = "";
-    }
-  })
-  .catch(err => {
-    // fetch failed, so save in indexed db
-    saveRecord(transaction);
-
-    // clear form
-    nameEl.value = "";
-    amountEl.value = "";
-  });
+      dateEl.value = "";
+    });
 }
 
-document.querySelector("#add-btn").onclick = function() {
+document.querySelector('table').onclick = function handleClearedBank(event) {
+
+  if (event.target.tagName != 'I') {
+    return;
+  }
+  const data_id = event.target.getAttribute('data-id');
+  const checkIcon = event.target;
+  const clearedBtn = event.target.closest('button');
+  let cleared;
+  if (event.target.classList.contains('fa-circle-o')) {
+    checkIcon.classList.remove("fa-circle-o");
+    clearedBtn.classList.remove("btn-outline-primary");
+    checkIcon.classList.add("fa-check");
+    clearedBtn.classList.add("btn-primary");
+    cleared = true;
+  } else {
+    checkIcon.classList.remove("fa-check");
+    clearedBtn.classList.remove("btn-primary");
+    checkIcon.classList.add("fa-circle-o");
+    clearedBtn.classList.add("btn-outline-primary");
+    cleared = false;
+  }
+
+  fetch("/api/transaction" + data_id, {
+    method: "post",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(cleared)
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .catch(function (err) {
+      console.log("Fetch Error :-S", err);
+    });
+}
+
+document.querySelector("#add-btn").onclick = function () {
   sendTransaction(true);
 };
 
-document.querySelector("#sub-btn").onclick = function() {
+document.querySelector("#sub-btn").onclick = function () {
   sendTransaction(false);
 };

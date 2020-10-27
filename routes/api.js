@@ -21,6 +21,26 @@ router.post("/api/transaction/bulk", ({body}, res) => {
     });
 });
 
+router.post("/api/transaction/:id", (req, res) => {
+  Transaction.update(
+    {
+      _id: mongojs.ObjectId(req.params.id)
+    },
+    {
+      $set: {
+        cleared: req.body
+      }
+    },
+    (error, data) => {
+      if (error) {
+        res.send(error);
+      } else {
+        res.send(data);
+      }
+    }
+  );
+});
+
 router.get("/api/transaction", (req, res) => {
   Transaction.find({}).sort({date: -1})
     .then(dbTransaction => {

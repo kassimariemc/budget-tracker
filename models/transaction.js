@@ -16,6 +16,10 @@ const transactionSchema = new Schema(
     date: {
       type: Date,
       default: Date.now
+    },
+    cleared: {
+      type: Boolean,
+      default: false
     }
   }
 );
