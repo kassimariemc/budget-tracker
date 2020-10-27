@@ -4,11 +4,9 @@
   "description": "balance your accounts and track your expenses even offline",
   "main": "index.js",
   "scripts": {
-    "webpack": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "lite-server": "lite-server",
-    "prestart": "npm run webpack"
+    "lite-server": "lite-server"
   },
   "repository": {
     "type": "git",
