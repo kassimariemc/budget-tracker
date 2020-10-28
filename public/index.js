@@ -22,6 +22,13 @@ function populateTotal() {
 
   let totalEl = document.querySelector("#total");
   totalEl.textContent = total;
+
+  let clearedTotal = transactions.filter(t => t.cleared).reduce((total, t) => {
+    return total + parseInt(t.value);
+  }, 0);
+
+  let clearedTotalEl = document.querySelector("#cleared-total");
+  clearedTotalEl.textContent = clearedTotal;
 }
 
 function populateTable() {
@@ -34,12 +41,21 @@ function populateTable() {
     let date = new Date(transaction.date);
     let dates = `${date.getMonth() + 1}/${date.getDate() + 1}/${date.getFullYear()}`;
     let data_id = transaction._id;
-    tr.innerHTML = `
+    if (transaction.cleared) {
+      tr.innerHTML = `
+      <td>${dates}</td>
+      <td>${transaction.name}</td>
+      <td>${transaction.value}</td>
+      <td><button class="btn btn-primary float-right"><i class="fa fa-check" data-id=${data_id}></i></button></td>
+    `;
+    } else {
+      tr.innerHTML = `
       <td>${dates}</td>
       <td>${transaction.name}</td>
       <td>${transaction.value}</td>
       <td><button class="btn btn-outline-primary float-right"><i class="fa fa-circle-o" data-id=${data_id}></i></button></td>
     `;
+    }
 
     tbody.appendChild(tr);
   });
@@ -102,7 +118,8 @@ function sendTransaction(isAdding) {
   let transaction = {
     name: nameEl.value,
     value: amountEl.value,
-    date: dateEl.value
+    date: dateEl.value,
+    cleared: false
   };
 
   // if subtracting funds, convert amount to negative number
@@ -161,27 +178,34 @@ document.querySelector('table').onclick = function handleClearedBank(event) {
   const checkIcon = event.target;
   const clearedBtn = event.target.closest('button');
   let cleared;
+
+  let index = transactions.findIndex(transaction => transaction._id === data_id);
+
   if (event.target.classList.contains('fa-circle-o')) {
     checkIcon.classList.remove("fa-circle-o");
     clearedBtn.classList.remove("btn-outline-primary");
     checkIcon.classList.add("fa-check");
     clearedBtn.classList.add("btn-primary");
     cleared = true;
+    transactions[index].cleared = cleared;
   } else {
     checkIcon.classList.remove("fa-check");
     clearedBtn.classList.remove("btn-primary");
     checkIcon.classList.add("fa-circle-o");
     clearedBtn.classList.add("btn-outline-primary");
     cleared = false;
+    transactions[index].cleared = cleared;
   }
 
-  fetch("/api/transaction" + data_id, {
-    method: "post",
+  populateTotal();
+
+  fetch("/api/transaction/" + data_id, {
+    method: "PUT",
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(cleared)
+    body: JSON.stringify({ cleared })
   })
     .then(function (response) {
       return response.json();

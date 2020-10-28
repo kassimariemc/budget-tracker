@@ -21,14 +21,12 @@ router.post("/api/transaction/bulk", ({body}, res) => {
     });
 });
 
-router.post("/api/transaction/:id", (req, res) => {
-  Transaction.update(
-    {
-      _id: mongojs.ObjectId(req.params.id)
-    },
+router.put("/api/transaction/:id", ({ body, params }, res) => {
+  Transaction.findByIdAndUpdate(
+    params.id,
     {
       $set: {
-        cleared: req.body
+        cleared: body.cleared
       }
     },
     (error, data) => {
