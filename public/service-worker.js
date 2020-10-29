@@ -2,14 +2,18 @@ const FILES_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  '/index.js',
-  '/db.js',
+  'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+  'https://fonts.googleapis.com/css2?family=Commissioner&display=swap',
+  'https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/solar/bootstrap.min.css',
   '/styles.css',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-512x512.png',
+  'https://cdn.jsdelivr.net/npm/chart.js@2.8.0',
+  '/index.js',
+  '/db.js'
 ];
 
-const STATIC_CACHE = "static-cache-v7";
+const STATIC_CACHE = "static-cache-v10";
 const RUNTIME_CACHE = "runtime-cache";
 
 self.addEventListener("install", event => {
