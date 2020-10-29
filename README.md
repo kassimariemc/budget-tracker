@@ -7,9 +7,6 @@ Balance your accounts and track your expenses even when offline.
 
 ![Screen Shot](public/images/screen-shot.png)
 
-Just add your desired exercises to your daliy workout to view your progress. 
-
-![Screen Shot](public/images/screen-shot2.png)
 
 Technologies used
 * Node.js
