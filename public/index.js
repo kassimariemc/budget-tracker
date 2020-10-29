@@ -22,7 +22,7 @@ function populateTotal() {
 
   let totalEl = document.querySelector("#total");
   totalEl.textContent = total;
-
+  // cleared total
   let clearedTotal = transactions.filter(t => t.cleared).reduce((total, t) => {
     return total + parseInt(t.value);
   }, 0);
@@ -41,6 +41,7 @@ function populateTable() {
     let date = new Date(transaction.date);
     let dates = `${date.getMonth() + 1}/${date.getDate() + 1}/${date.getFullYear()}`;
     let data_id = transaction._id;
+    // load table items based on if cleared bank or not to keep check icon
     if (transaction.cleared) {
       tr.innerHTML = `
       <td>${dates}</td>
@@ -114,7 +115,7 @@ function sendTransaction(isAdding) {
     errorEl.textContent = "";
   }
 
-  // create record
+  // create record, cleared default false
   let transaction = {
     name: nameEl.value,
     value: amountEl.value,
@@ -170,22 +171,24 @@ function sendTransaction(isAdding) {
 }
 
 document.querySelector('table').onclick = function handleClearedBank(event) {
-
+  // grab only if icon clicked
   if (event.target.tagName != 'I') {
     return;
   }
+  // set variables
   const data_id = event.target.getAttribute('data-id');
   const checkIcon = event.target;
   const clearedBtn = event.target.closest('button');
   let cleared;
-
+  // get index of clicked item
   let index = transactions.findIndex(transaction => transaction._id === data_id);
-
+  // change button icon
   if (event.target.classList.contains('fa-circle-o')) {
     checkIcon.classList.remove("fa-circle-o");
     clearedBtn.classList.remove("btn-outline-primary");
     checkIcon.classList.add("fa-check");
     clearedBtn.classList.add("btn-primary");
+    // set cleared
     cleared = true;
     transactions[index].cleared = cleared;
   } else {
@@ -193,12 +196,13 @@ document.querySelector('table').onclick = function handleClearedBank(event) {
     clearedBtn.classList.remove("btn-primary");
     checkIcon.classList.add("fa-circle-o");
     clearedBtn.classList.add("btn-outline-primary");
+    // set cleared
     cleared = false;
     transactions[index].cleared = cleared;
   }
-
+  // recalculate total for cleared total
   populateTotal();
-
+  // send cleared update to db
   fetch("/api/transaction/" + data_id, {
     method: "PUT",
     headers: {
