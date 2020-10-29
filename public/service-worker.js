@@ -2,19 +2,35 @@ const FILES_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
-  'https://fonts.googleapis.com/css2?family=Commissioner&display=swap',
-  'https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/solar/bootstrap.min.css',
+  '/index.js',
+  '/db.js',
   '/styles.css',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
-  'https://cdn.jsdelivr.net/npm/chart.js@2.8.0',
-  '/index.js',
-  '/db.js'
+  'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+  'https://fonts.googleapis.com/css2?family=Commissioner&display=swap',
+  'https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/solar/bootstrap.min.css',
+  'https://cdn.jsdelivr.net/npm/chart.js@2.8.0'
 ];
 
-const STATIC_CACHE = "static-cache-v10";
+const STATIC_CACHE = "static-cache-v11";
 const RUNTIME_CACHE = "runtime-cache";
+
+// importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+
+// if (workbox) {
+//   console.log(`Yay! Workbox is loaded 🎉`);
+// } else {
+//   console.log(`Boo! Workbox didn't load 😬`);
+// }
+
+// const {registerRoute} = workbox.routing;
+// const {NetworkFirst} = workbox.strategies;
+
+// registerRoute(
+//   ({request}) => request.destination === 'script',
+//   new NetworkFirst()
+// );
 
 self.addEventListener("install", event => {
   event.waitUntil(
