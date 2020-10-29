@@ -3,7 +3,7 @@
 
 ## Description
 
-Balance your accounts and track your expenses even when offline. 
+Balance your accounts and track your expenses even when offline. See your current balance and calculate your future balance based on your upcoming expenses. This application will fully work and save your data with no internet access. 
 
 ![Screen Shot](public/images/screen-shot.png)
 
@@ -11,8 +11,9 @@ Balance your accounts and track your expenses even when offline.
 Technologies used
 * Node.js
 * Express
-* Object-document mapping
+* Chart.js
 * MongoDB with Mongoose Schema
+* IndexDB
 * Web Manifest
 * Service Worker
 
